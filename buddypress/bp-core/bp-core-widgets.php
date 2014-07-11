@@ -355,7 +355,8 @@ class BP_Core_Whos_Online_Widget extends WP_Widget {
 			<div class="avatar-block">
 				<?php while ( bp_members() ) : bp_the_member(); ?>
 					<div class="item-avatar">
-						<a href="<?php bp_member_permalink() ?>" title="<?php bp_member_name() ?>"><?php bp_member_avatar() ?></a>
+                                          
+						<a href="javascript:void(0)" onclick="javascript:chatWith('<?php bp_member_name ?>')" title="<?php bp_member_name() ?>"><?php bp_member_avatar() ?></a>
 					</div>
 				<?php endwhile; ?>
 			</div>
