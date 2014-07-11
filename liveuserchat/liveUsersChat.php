@@ -10,13 +10,14 @@
  */
 session_start();
 global $bp;
+global $wpdb;
 $userName = $bp->loggedin_user->fullname;
 $_SESSION['username'] = $userName;
 
 function liveUsersChat_activation() {
 
     require_once( ABSPATH . '/wp-admin/includes/upgrade.php' );
-    global $wpdb;
+    
     $db_table_name = $wpdb->prefix . 'live_users_chat_messages';
     $_SESSION['tableName'] = $db_table_name;
 
@@ -57,16 +58,18 @@ add_action('wp_head', 'add_header_links');
 add_action('admin_head', 'add_header_links');
 
 function show_chat_box() {
-
+    //var_dump($_POST);
     echo "tutaj -> " . $_SESSION['tableName'] . "<- tutaj table name";
+      
     global $bp;
     $userName = $bp->loggedin_user->fullname;
     $_SESSION['username'] = $userName;
-
+ echo "tutaj -> " . $_SESSION['username'] . "<- tutaj user name";
     if ($_GET['action'] == "chatheartbeat") {
         chatHeartbeat();
     }
     if ($_GET['action'] == "sendchat") {
+      
         sendChat();
     }
     if ($_GET['action'] == "closechat") {
@@ -85,7 +88,6 @@ function show_chat_box() {
     }
 
     function chatHeartbeat() {
-
         $sql = "select * from " . $_SESSION['tableName'] . " where (" . $_SESSION['tableName'] . ".to = '" . mysql_real_escape_string($_SESSION['username']) . "' AND recd = 0) order by id ASC";
         $query = mysql_query($sql) or die("Error: Cannot select! " . mysql_errno() . ": " . mysql_error() . " \n");
         $items = '';
@@ -213,6 +215,7 @@ EOD;
     }
 
     function sendChat() {
+  
         $from = $_SESSION['username'];
         $to = $_POST['to'];
         $message = $_POST['message'];
@@ -236,7 +239,7 @@ EOD;
 
         unset($_SESSION['tsChatBoxes'][$_POST['to']]);
 
-        $sql = "insert into " . $_SESSION['tableName'] . " (" . $_SESSION['tableName'] . ".from," . $_SESSION['tableName'] . ".to," . $_SESSION['tableName'] . ".message,sent) values ('" . mysql_real_escape_string($from) . "', '" . mysql_real_escape_string($to) . "','" . mysql_real_escape_string($message) . "',NOW())";
+        $sql = "insert into " . $_SESSION['tableName'] . " (" . $_SESSION['tableName'] . ".from," . $_SESSION['tableName'] . ".to," . $_SESSION['tableName'] . ".message," . $_SESSION['tableName'] . ".sent) values ('" . mysql_real_escape_string($from) . "', '" . mysql_real_escape_string($to) . "','" . mysql_real_escape_string($message) . "',NOW())";
         $query = mysql_query($sql) or die("Error: Cannot insert! " . mysql_errno() . ": " . mysql_error() . " \n");
         echo "1";
         exit(0);
