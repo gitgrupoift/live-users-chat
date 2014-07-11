@@ -328,6 +328,8 @@ class BP_Core_Whos_Online_Widget extends WP_Widget {
 	 *
 	 * @param array $args Widget arguments.
 	 * @param array $instance Widget settings, as saved by the user.
+         * 
+         * Changed it to friends online.
 	 */
 	function widget($args, $instance) {
 
@@ -341,7 +343,7 @@ class BP_Core_Whos_Online_Widget extends WP_Widget {
 		   . $after_title;
 
 		$members_args = array(
-			'user_id'         => 0,
+			'user_id' => bp_loggedin_user_id(),
 			'type'            => 'online',
 			'per_page'        => $instance['max_members'],
 			'max'             => $instance['max_members'],
