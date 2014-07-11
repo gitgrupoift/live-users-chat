@@ -12,7 +12,7 @@ session_start();
 global $bp;
 global $wpdb;
 $userName = $bp->loggedin_user->fullname;
-$_SESSION['username'] = $userName;
+$_SESSION['username'] = "DUPA";
 
 function liveUsersChat_activation() {
 
@@ -58,6 +58,7 @@ add_action('wp_head', 'add_header_links');
 add_action('admin_head', 'add_header_links');
 
 function show_chat_box() {
+
     //var_dump($_POST);
    // echo "tutaj -> " . $_SESSION['tableName'] . "<- tutaj table name";
       
@@ -91,7 +92,6 @@ function show_chat_box() {
         $sql = "select * from " . $_SESSION['tableName'] . " where (" . $_SESSION['tableName'] . ".to = '" . mysql_real_escape_string($_SESSION['username']) . "' AND recd = 0) order by id ASC";
         $query = mysql_query($sql) or die("Error: Cannot select! " . mysql_errno() . ": " . mysql_error() . " \n");
         $items = '';
-
         $chatBoxes = array();
 
         while ($chat = mysql_fetch_array($query)) {
@@ -240,8 +240,10 @@ EOD;
         unset($_SESSION['tsChatBoxes'][$_POST['to']]);
 
         $sql = "insert into " . $_SESSION['tableName'] . " (" . $_SESSION['tableName'] . ".from," . $_SESSION['tableName'] . ".to," . $_SESSION['tableName'] . ".message," . $_SESSION['tableName'] . ".sent) values ('" . mysql_real_escape_string($from) . "', '" . mysql_real_escape_string($to) . "','" . mysql_real_escape_string($message) . "',NOW())";
+       
         $query = mysql_query($sql) or die("Error: Cannot insert! " . mysql_errno() . ": " . mysql_error() . " \n");
         echo "1";
+        
         exit(0);
     }
 
