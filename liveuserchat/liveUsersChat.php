@@ -59,12 +59,12 @@ add_action('admin_head', 'add_header_links');
 
 function show_chat_box() {
     //var_dump($_POST);
-    echo "tutaj -> " . $_SESSION['tableName'] . "<- tutaj table name";
+   // echo "tutaj -> " . $_SESSION['tableName'] . "<- tutaj table name";
       
     global $bp;
     $userName = $bp->loggedin_user->fullname;
     $_SESSION['username'] = $userName;
- echo "tutaj -> " . $_SESSION['username'] . "<- tutaj user name";
+ //echo "tutaj -> " . $_SESSION['username'] . "<- tutaj user name";
     if ($_GET['action'] == "chatheartbeat") {
         chatHeartbeat();
     }
