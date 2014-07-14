@@ -7,6 +7,10 @@
  */
 
 function show_chat_box() {
+
+    
+    
+    
     global $bp;
    
      
@@ -20,6 +24,10 @@ global $wpdb;
     global $bp;
     $userName = $bp->loggedin_user->fullname;
     $_SESSION['username'] = $userName;
+    $id_of_Sender = $bp->loggedin_user->id;
+    $id_of_Reciever = ;
+    echo $id_of_Reciever."<-tutaj";
+    echo $id_of_Sender;
     //echo "tutaj -> " . $_SESSION['username'] . "<- tutaj user name";
 
    
@@ -175,9 +183,12 @@ EOD;
 
         unset($_SESSION['tsChatBoxes'][$_POST['to']]);
 
-        $sql = "insert into " . $_SESSION['tableName'] . " (" . $_SESSION['tableName'] . ".from," . $_SESSION['tableName'] . ".to," . $_SESSION['tableName'] . ".message," . $_SESSION['tableName'] . ".sent) values ('" . mysql_real_escape_string($from) . "', '" . mysql_real_escape_string($to) . "','" . mysql_real_escape_string($message) . "',NOW())";
+        $sql = "insert into " . $_SESSION['tableName'] . " (" . $_SESSION['tableName'] . ".from, ".$_SESSION['tableName'].".whosPriv," . $_SESSION['tableName'] . ".to," . $_SESSION['tableName'] . ".message," . $_SESSION['tableName'] . ".sent) values ('" . mysql_real_escape_string($from) . "', '" . bp_loggedin_user_id() . "','" . mysql_real_escape_string($to) . "','" . mysql_real_escape_string($message) . "',NOW())";
 
         $query = mysql_query($sql) or die("Error: Cannot insert! " . mysql_errno() . ": " . mysql_error() . " \n");
+        
+       // $sql = "insert into " . $_SESSION['tableName'] . " (" . $_SESSION['tableName'] . ".from, ".$_SESSION['tableName'].".whosPriv," . $_SESSION['tableName'] . ".to," . $_SESSION['tableName'] . ".message," . $_SESSION['tableName'] . ".sent) values ('" . mysql_real_escape_string($from) . "', '" . bp_loggedin_user_id() . "','" . mysql_real_escape_string($to) . "','" . mysql_real_escape_string($message) . "',NOW())";
+       // $query = mysql_query($sql) or die("Error: Cannot insert! " . mysql_errno() . ": " . mysql_error() . " \n");
         echo "1";
 
         exit(0);

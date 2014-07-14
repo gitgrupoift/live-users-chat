@@ -20,9 +20,8 @@ global $wpdb;
 
         $sql = "CREATE TABLE " . $db_table_name . " (
 			`id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                        `from_id` INT NOT NULL,
+                        `whosPriv` INT NOT NULL,
                         `from` VARCHAR(255) NOT NULL DEFAULT '',
-                        `to_id` INT NOT NULL,
                         `to` VARCHAR(255) NOT NULL DEFAULT '',
                         `message` TEXT NOT NULL,
                         `sent` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',

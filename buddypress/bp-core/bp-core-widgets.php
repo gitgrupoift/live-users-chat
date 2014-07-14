@@ -334,6 +334,7 @@ class BP_Core_Whos_Online_Widget extends WP_Widget {
      * 
      * Changed it to friends online.
      */
+
     function widget($args, $instance) {
 
         extract($args);
@@ -361,8 +362,9 @@ class BP_Core_Whos_Online_Widget extends WP_Widget {
                 <div class="avatar-block">
                     <?php while (bp_members()) : bp_the_member(); ?>
                         <div class="item-avatar">
-
-                            <a href="javascript:void(0)" onclick="javascript:chatWith('<?php bp_member_name() ?>')" title="<?php bp_member_name() ?>"><?php bp_member_avatar() ?></a>
+                             <?php  $helpMembId = bp_get_member_user_id(); //bp_member_user_id(); ?>
+                            <?php //echo bp_core_get_username(  $helpMembId ); ?>
+                            <a href="javascript:void(0)" onclick="javascript:chatWith('<?php echo bp_core_get_username(  $helpMembId  )  ?>')" title="<?php bp_member_name() ?>"><?php bp_member_avatar() ?></a>
                         </div>
                     <?php endwhile; ?>
                 </div>
