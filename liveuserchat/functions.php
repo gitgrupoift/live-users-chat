@@ -7,7 +7,9 @@
  */
 
 function show_chat_box() {
-     global $bp;
+    global $bp;
+   
+     
 global $wpdb;
  $db_table_name = $wpdb->prefix . 'live_users_chat_messages';
     $_SESSION['tableName'] = $db_table_name;
