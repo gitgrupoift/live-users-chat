@@ -7,8 +7,8 @@
 function liveUsersChat_activation() {
 
     require_once( ABSPATH . '/wp-admin/includes/upgrade.php' );
-global $bp;
-global $wpdb;
+    global $bp;
+    global $wpdb;
     $db_table_name = $wpdb->prefix . 'live_users_chat_messages';
     $_SESSION['tableName'] = $db_table_name;
   
@@ -20,7 +20,7 @@ global $wpdb;
 
         $sql = "CREATE TABLE " . $db_table_name . " (
 			`id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                        `whosPriv` INT NOT NULL,
+                        `whosPriv` VARCHAR(255) NOT NULL DEFAULT '',
                         `from` VARCHAR(255) NOT NULL DEFAULT '',
                         `to` VARCHAR(255) NOT NULL DEFAULT '',
                         `message` TEXT NOT NULL,

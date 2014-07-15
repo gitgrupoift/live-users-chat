@@ -37,5 +37,5 @@ register_activation_hook(__FILE__, 'liveUsersChat_activation');
 
 add_action('wp_head', 'add_header_links');
 add_action('admin_head', 'add_header_links');
-add_action('get_footer', 'show_chat_box');
+//add_action('get_footer', 'show_chat_box');
 

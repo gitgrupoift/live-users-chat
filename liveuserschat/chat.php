@@ -1,17 +1,55 @@
 <?php
-/**
- * BuddyPress Core Component Widgets.
- *
- * @package BuddyPress
- * @subpackage Core
+
+
+/** Loads the WordPress Environment and Template */
+
+$scriptPath = dirname(__FILE__);
+ $path = realpath($scriptPath . '/./');
+ $filepath = split("wp-content",$path);
+// print_r($filepath);
+define('WP_USE_THEMES', false);
+require(''.$filepath[0].'/wp-blog-header.php'); 
+
+
+
+
+//session_start();
+//global $bp;
+//global $wpdb;
+
+
+$userName = $bp->loggedin_user->fullname;
+$_SESSION['username'] = $userName;
+
+
+//require('functions.php');
+//require('installer.php');
+//register_activation_hook(__FILE__, 'liveUsersChat_activation');
+
+//add_action('wp_head', 'add_header_links');
+//add_action('admin_head', 'add_header_links');
+//add_action('get_footer', 'show_chat_box');
+
+//<?php
+
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
-// Exit if accessed directly
+
+//show_chat_box();
+
+liveUsersChat::show_chat_box();
+
+/*
+ <?php
+/**
+
 if (!defined('ABSPATH'))
     exit;
 
-/**
- * Register bp-core widgets.
- */
+
 function bp_core_register_widgets() {
     add_action('widgets_init', create_function('', 'return register_widget("BP_Core_Login_Widget");'));
     add_action('widgets_init', create_function('', 'return register_widget("BP_Core_Members_Widget");'));
@@ -21,16 +59,9 @@ function bp_core_register_widgets() {
 
 add_action('bp_register_widgets', 'bp_core_register_widgets');
 
-/**
- * BuddyPress Login Widget.
- *
- * @since BuddyPress (1.9.0)
- */
+
 class BP_Core_Login_Widget extends WP_Widget {
 
-    /**
-     * Constructor method.
-     */
     public function __construct() {
         parent::__construct(
                 false, _x('(BuddyPress) Log In', 'Title of the login widget', 'buddypress'), array(
@@ -40,14 +71,7 @@ class BP_Core_Login_Widget extends WP_Widget {
         );
     }
 
-    /**
-     * Display the login widget.
-     *
-     * @see WP_Widget::widget() for description of parameters.
-     *
-     * @param array $args Widget arguments.
-     * @param array $instance Widget settings, as saved by the user.
-     */
+
     public function widget($args, $instance) {
         $title = isset($instance['title']) ? $instance['title'] : '';
         $title = apply_filters('widget_title', $title);
@@ -105,13 +129,7 @@ class BP_Core_Login_Widget extends WP_Widget {
         echo $args['after_widget'];
     }
 
-    /**
-     * Update the login widget options.
-     *
-     * @param array $new_instance The new instance options.
-     * @param array $old_instance The old instance options.
-     * @return array $instance The parsed options to be saved.
-     */
+
     public function update($new_instance, $old_instance) {
         $instance = $old_instance;
         $instance['title'] = isset($new_instance['title']) ? strip_tags($new_instance['title']) : '';
@@ -119,11 +137,7 @@ class BP_Core_Login_Widget extends WP_Widget {
         return $instance;
     }
 
-    /**
-     * Output the login widget options form.
-     *
-     * @param $instance Settings for this widget.
-     */
+
     public function form($instance = array()) {
 
         $settings = wp_parse_args($instance, array(
@@ -141,14 +155,9 @@ class BP_Core_Login_Widget extends WP_Widget {
 
 }
 
-/**
- * Members Widget.
- */
+
 class BP_Core_Members_Widget extends WP_Widget {
 
-    /**
-     * Constructor method.
-     */
     function __construct() {
         $widget_ops = array(
             'description' => __('A dynamic list of recently active, popular, and newest members', 'buddypress'),
@@ -162,14 +171,6 @@ class BP_Core_Members_Widget extends WP_Widget {
         }
     }
 
-    /**
-     * Display the Members widget.
-     *
-     * @see WP_Widget::widget() for description of parameters.
-     *
-     * @param array $args Widget arguments.
-     * @param array $instance Widget settings, as saved by the user.
-     */
     function widget($args, $instance) {
 
         extract($args);
@@ -250,13 +251,7 @@ class BP_Core_Members_Widget extends WP_Widget {
         <?php
     }
 
-    /**
-     * Update the Members widget options.
-     *
-     * @param array $new_instance The new instance options.
-     * @param array $old_instance The old instance options.
-     * @return array $instance The parsed options to be saved.
-     */
+
     function update($new_instance, $old_instance) {
         $instance = $old_instance;
 
@@ -268,11 +263,7 @@ class BP_Core_Members_Widget extends WP_Widget {
         return $instance;
     }
 
-    /**
-     * Output the Members widget options form.
-     *
-     * @param $instance Settings for this widget.
-     */
+
     function form($instance) {
         $defaults = array(
             'title' => __('Members', 'buddypress'),
@@ -309,13 +300,10 @@ class BP_Core_Members_Widget extends WP_Widget {
 
 }
 
-/* * * WHO'S ONLINE WIDGET **************** */
+
 
 class BP_Core_Whos_Online_Widget extends WP_Widget {
 
-    /**
-     * Constructor method.
-     */
     function __construct() {
         $widget_ops = array(
             'description' => __('Avatars of users who are currently online', 'buddypress'),
@@ -324,16 +312,6 @@ class BP_Core_Whos_Online_Widget extends WP_Widget {
         parent::__construct(false, $name = _x("(BuddyPress) Who's Online", 'widget name', 'buddypress'), $widget_ops);
     }
 
-    /**
-     * Display the Who's Online widget.
-     *
-     * @see WP_Widget::widget() for description of parameters.
-     *
-     * @param array $args Widget arguments.
-     * @param array $instance Widget settings, as saved by the user.
-     * 
-     * Changed it to friends online.
-     */
 
     function widget($args, $instance) {
 
@@ -364,7 +342,7 @@ class BP_Core_Whos_Online_Widget extends WP_Widget {
                         <div class="item-avatar">
                              <?php  $helpMembId = bp_get_member_user_id(); //bp_member_user_id(); ?>
                             <?php //echo bp_core_get_username(  $helpMembId ); ?>
-                            <a href="javascript:void(0)" onclick="javascript:chatWith('<?php echo bp_core_get_username(  $helpMembId  )  ?>')" title="<?php bp_member_name() ?>"><?php bp_member_avatar() ?></a>
+                            <a href="javascript:void(0)" onclick="javascript:chatWith('<?php /*echo $helpMembId / echo bp_core_get_username(  $helpMembId  )  ?>')" title="<?php bp_member_name() ?>"><?php bp_member_avatar() ?></a>
                         </div>
                     <?php endwhile; ?>
                 </div>
@@ -387,7 +365,7 @@ class BP_Core_Whos_Online_Widget extends WP_Widget {
      * @param array $new_instance The new instance options.
      * @param array $old_instance The old instance options.
      * @return array $instance The parsed options to be saved.
-     */
+   
     function update($new_instance, $old_instance) {
         $instance = $old_instance;
         $instance['title'] = strip_tags($new_instance['title']);
@@ -400,7 +378,7 @@ class BP_Core_Whos_Online_Widget extends WP_Widget {
      * Output the Who's Online widget options form.
      *
      * @param $instance Settings for this widget.
-     */
+  
     function form($instance) {
         $defaults = array(
             'title' => __("Who's Online", 'buddypress'),
@@ -419,14 +397,13 @@ class BP_Core_Whos_Online_Widget extends WP_Widget {
     }
 
 }
-
-/* * * RECENTLY ACTIVE WIDGET **************** */
+***
 
 class BP_Core_Recently_Active_Widget extends WP_Widget {
 
     /**
      * Constructor method.
-     */
+  
     function __construct() {
         $widget_ops = array(
             'description' => __('Avatars of recently active members', 'buddypress'),
@@ -442,7 +419,7 @@ class BP_Core_Recently_Active_Widget extends WP_Widget {
      *
      * @param array $args Widget arguments.
      * @param array $instance Widget settings, as saved by the user.
-     */
+
     function widget($args, $instance) {
 
         extract($args);
@@ -490,7 +467,7 @@ class BP_Core_Recently_Active_Widget extends WP_Widget {
      * @param array $new_instance The new instance options.
      * @param array $old_instance The old instance options.
      * @return array $instance The parsed options to be saved.
-     */
+    
     function update($new_instance, $old_instance) {
         $instance = $old_instance;
         $instance['title'] = strip_tags($new_instance['title']);
@@ -503,7 +480,7 @@ class BP_Core_Recently_Active_Widget extends WP_Widget {
      * Output the Recently Active widget options form.
      *
      * @param $instance Settings for this widget.
-     */
+  
     function form($instance) {
         $defaults = array(
             'title' => __('Recently Active Members', 'buddypress'),
@@ -525,7 +502,7 @@ class BP_Core_Recently_Active_Widget extends WP_Widget {
 
 /**
  * AJAX request handler for Members widgets.
- */
+
 function bp_core_ajax_widget_members() {
 
     check_ajax_referer('bp_core_widget_members');
@@ -589,3 +566,5 @@ function bp_core_ajax_widget_members() {
 
 add_action('wp_ajax_widget_members', 'bp_core_ajax_widget_members');
 add_action('wp_ajax_nopriv_widget_members', 'bp_core_ajax_widget_members');
+
+ */
