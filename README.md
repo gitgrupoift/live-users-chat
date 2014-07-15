@@ -10,6 +10,5 @@ What to do:
 - Change id's recieving
 - Add clear from dataBase button
 - Add Clear window in chat
-- Add code injector instead of overwriting the bp-core-widgets.php file/ Or just change it to widget
 - Add the possibility of changing theme of the plugin
 - More tests
