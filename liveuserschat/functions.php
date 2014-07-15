@@ -1,29 +1,22 @@
 <?php
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Functions.php
+ * By Tomasz Swiadek - Polcode
+ * Chat from
  */
 
 
-
-/* class chat_box extends WP_Widget{
-  function __construct(){
-  parent::__construct('chat_box', __('Live users chat!', 'www.tomasz-swiadek.pl'), array('description'=>__('Live users chat - best buddypress chat plugin','www.tomasz-swiadek.pl'),)); */
-
 class liveUsersChat extends WP_Widget {
 
-//constructor 
+
     function liveUsersChat() {
         parent::WP_widget(false, $name = __('Live Users Chat - Tomasz Swiadek', 'liveUsersChat'));
     }
 
     function form($instance) {
-// Check values
+
         if ($instance) {
-         //   $title = esc_attr($instance['title']);
-         //   $text = esc_attr($instance['text']);
-         //   $textarea = esc_textarea($instance['textarea']);
+
                $title = 'Feel free to change the title :) ';
 
         } else {
@@ -57,22 +50,13 @@ class liveUsersChat extends WP_Widget {
         $db_table_name = $wpdb->prefix . 'live_users_chat_messages';
         $_SESSION['tableName'] = $db_table_name;
 
-//var_dump($_POST);
-// echo "tutaj -> " . $_SESSION['tableName'] . "<- tutaj table name";
 
         global $bp;
 
-//$userName = $bp->loggedin_user->fullname;
         $userName = bp_core_get_username($bp->loggedin_user->id);
         $_SESSION['username'] = $userName;
         $id_of_Sender = $bp->loggedin_user->id;
-
-// $id_of_Reciever = bp_get_member_user_id();
-// echo $id_of_Reciever."<-tutaj";
-//echo $id_of_Reciever."<-tutaj";
-//echo $id_of_Sender;
-//echo "tutaj -> " . $_SESSION['username'] . "<- tutaj user name";
-//echo $_SESSION['tableName']. " <-tuuuutaj !".$db_table_name;
+        
         function chatHeartbeat() {
 
             $sql = "select * from " . $_SESSION['tableName'] . " where (" . $_SESSION['tableName'] . ".to = '" . mysql_real_escape_string($_SESSION['username']) . "' AND recd = 0) AND " . $_SESSION['tableName'] . ".whosPriv='" . $_SESSION['username'] . "' order by id ASC";
@@ -224,14 +208,7 @@ EOD;
 
 
             unset($_SESSION['tsChatBoxes'][$_POST['to']]);
-            /*       $whosPriv;
-              $grabReciever = "select * from " . $_SESSION['tableName'] . " where " . $_SESSION['tableName'] . ".to = '". mysql_real_escape_string($to) ."' AND " . $_SESSION['tableName'] . ".from = '". $_SESSION['username'] ."' LIMIT 1;";
-              $query = mysql_query($grabReciever) or die("Error: something went wrong! " . mysql_errno() . ": " . mysql_error() . " \n");
-              while($row = mysql_fetch_array($query, MYSQL_ASSOC)){
-              $whosPriv = $row['to'];
 
-              } */
-// echo $row['to'].' HJER !</br> '.$whosPriv;
             $sql = "insert into " . $_SESSION['tableName'] . " (" . $_SESSION['tableName'] . ".from, " . $_SESSION['tableName'] . ".whosPriv," . $_SESSION['tableName'] . ".to, " . $_SESSION['tableName'] . ".message," . $_SESSION['tableName'] . ".sent) values ('" . mysql_real_escape_string($from) . "', '" . mysql_real_escape_string($from) . "','" . mysql_real_escape_string($to) . "','" . mysql_real_escape_string($message) . "',NOW())";
 
             $query = mysql_query($sql) or die("Error: Cannot insert! " . mysql_errno() . ": " . mysql_error() . " \n");
@@ -312,9 +289,8 @@ EOD;
                 <div class="avatar-block">
                     <?php while (bp_members()) : bp_the_member(); ?>
                         <div class="item-avatar">
-                            <?php $helpMembId = bp_get_member_user_id(); //bp_member_user_id();  ?>
-                            <?php //echo bp_core_get_username(  $helpMembId );  ?>
-                            <a href="javascript:void(0)" onclick="javascript:chatWith('<?php /* echo $helpMembId */ echo bp_core_get_username($helpMembId) ?>')" title="<?php bp_member_name() ?>"><?php bp_member_avatar() ?></a>
+                            <?php $helpMembId = bp_get_member_user_id();  ?>
+                            <a href="javascript:void(0)" onclick="javascript:chatWith('<?php echo bp_core_get_username($helpMembId) ?>')" title="<?php bp_member_name() ?>"><?php bp_member_avatar() ?></a>
                         </div>
                     <?php endwhile; ?>
                 </div>
@@ -331,8 +307,6 @@ EOD;
 
         <?php echo $after_widget; ?>
         <?php
-        echo "---------------------------------";
-        // show_chat_box();
     }
 
 }
