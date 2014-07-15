@@ -8,7 +8,8 @@ Chat with your friends online !
 What to do:
 ===============
 - Change id's recieving
+- Add Settings
+- Add History
 - Add clear from dataBase button
 - Add Clear window in chat
-- Add the possibility of changing theme of the plugin
 - More tests
